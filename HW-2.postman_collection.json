@@ -1,0 +1,860 @@
+{
+	"info": {
+		"_postman_id": "669783db-3368-4a21-a863-317159017519",
+		"name": "HW-2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20886873"
+	},
+	"item": [
+		{
+			"name": "Task_1_First_request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Postman HW 2\r",
+							"// Task 1\r",
+							"\r",
+							"// http://162.55.220.72:5005/first\r",
+							"// 1. Отправить запрос.\r",
+							"// 2. Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 3. Проверить, что в body приходит правильный string.\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.eql(\"This is the first responce from server!ss\");\r",
+							"});\r",
+							"\r",
+							"// Второй вариант:\r",
+							"tests[\"Body is correct\"] = responseBody === \"This is the first responce from server!ss\";\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/first",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"first"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task_2_User_info_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Postman HW 2\r",
+							"// Task 2\r",
+							"\r",
+							"// http://162.55.220.72:5005/user_info_3\r",
+							"// Предварительно создала окружение без объявления переменных и их значений.\r",
+							"// Затем в Pre-request Script инициализировала переменные age, name, salary и присвоила им значения\r",
+							"// для того, чтобы запрос был отправлен именно с этими значениями.\r",
+							"// Альтернативный вариант: вручную в окружении инициализировать переменные age, name, salary и присвоить им значения.\r",
+							"\r",
+							"\r",
+							"// 1. Отправить запрос.\r",
+							"// 2. Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"// 2ой вариант: \r",
+							"// tests[\"Status code is 200 double\"] = responseCode.code === 200;\r",
+							"\r",
+							"\r",
+							"// 3. Спарсить response body в json.\r",
+							"const responseJson = pm.response.json();\r",
+							"// 2ой вариант: \r",
+							"// const responseJson_2 = JSON.parse(pm.response.text()); \r",
+							"// 3ий вариант:\r",
+							"// const responseJson_3 = JSON.parse(responseBody);\r",
+							"\r",
+							"\r",
+							"// 4. Проверить, что name в ответе равно name s request (name вбить руками.)\r",
+							"pm.test(\"Response property 'name' matches the value 'Olga'\", function () {\r",
+							"  pm.expect(responseJson.name).to.eql('Olga');\r",
+							"});\r",
+							"// 2ой вариант (name беру из окружения):\r",
+							"pm.test(\"Response property 'name' matches environment variable\", function () {\r",
+							"  pm.expect(responseJson.name).to.eql(pm.environment.get(\"name\"));\r",
+							"});\r",
+							"// 3ий вариант (запись взята с сайта https://learning.postman.com/):\r",
+							"tests[\"Response property 'name' matches environment variable (double)\"] = responseJson.name === pm.environment.get(\"name\");\r",
+							"\r",
+							"\r",
+							"// 5. Проверить, что age в ответе равно age s request (age вбить руками.)\r",
+							"// Разобралась с передачей значения вручную, поэтому далее передаю значение через окружение\r",
+							"pm.test(\"Response property 'age' matches environment variable\", function () {\r",
+							"  pm.expect(Number(responseJson.age)).to.eql(pm.environment.get(\"age\"));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 6. Проверить, что salary в ответе равно salary s request (salary вбить руками.)\r",
+							"pm.test(\"Response property 'salary' matches environment variable\", function () {\r",
+							"  pm.expect(responseJson.salary).to.eql(Number(pm.environment.get(\"salary\")));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 7. Спарсить request.\r",
+							"const req = request.data;\r",
+							"\r",
+							"\r",
+							"// 8. Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test(\"Response property 'name' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.name).to.eql(req.name);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 9. Проверить, что age в ответе равно age s request (age забрать из request.)\r",
+							"pm.test(\"Response property 'age' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.age).to.eql(req.age);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 10. Проверить, что salary в ответе равно salary s request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'salary' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.salary).to.eql(Number(req.salary));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 11. Вывести в консоль параметр family из response.\r",
+							"console.log('Family in response:', responseJson.family);\r",
+							"\r",
+							"\r",
+							"// 12. Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request)\r",
+							"pm.test(\"Response property 'u_salary_1_5_year' matches request variable multiplied by 4\", function () {\r",
+							"  pm.expect(responseJson.family.u_salary_1_5_year).to.eql(req.salary*4);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", \"Olga\");\r",
+							"pm.environment.set(\"age\", 36);\r",
+							"pm.environment.set(\"salary\", 4000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_3",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task_3_Object_info_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Postman HW 2\r",
+							"// Task 3\r",
+							"\r",
+							"// http://162.55.220.72:5005/object_info_3\r",
+							"// В Pre-request Script инициализирую переменные age, name, salary и присваиваю им значения\r",
+							"\r",
+							"\r",
+							"// 1. Отправить запрос.\r",
+							"// 2. Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 3. Спарсить response body в json.\r",
+							"const responseJson = pm.response.json(); \r",
+							"\r",
+							"\r",
+							"// 4. Спарсить request.\r",
+							"const req = pm.request.url.query.toObject();\r",
+							"\r",
+							"\r",
+							"// 5. Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test(\"Response property 'name' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.name).to.eql(req.name);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 6. Проверить, что age в ответе равно age s request (age забрать из request.)\r",
+							"pm.test(\"Response property 'age' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.age).to.eql(req.age);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 7. Проверить, что salary в ответе равно salary s request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'salary' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.salary).to.eql(Number(req.salary));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 8. Вывести в консоль параметр family из response.\r",
+							"console.log('Family in response:', responseJson.family);\r",
+							"\r",
+							"\r",
+							"// 9. Проверить, что у параметра dog есть параметры name.\r",
+							"pm.test(\"The response property 'dog' has a property 'name'\", function () {\r",
+							"  pm.expect(responseJson.family.pets.dog).to.have.property('name');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 10. Проверить, что у параметра dog есть параметры age.\r",
+							"pm.test(\"The response property 'dog' has a property 'age'\", function () {\r",
+							"  pm.expect(responseJson.family.pets.dog).to.have.property('age');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 11. Проверить, что параметр name имеет значение Luky.\r",
+							"pm.test(\"The response property 'dog.name' matches a value 'Luky'\", function () {\r",
+							"  pm.expect(responseJson.family.pets.dog.name).to.eql('Luky');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 12. Проверить, что параметр age имеет значение 4.\r",
+							"pm.test(\"The response property 'dog.age' matches a value '4'\", function () {\r",
+							"  pm.expect(responseJson.family.pets.dog.age).to.eql(4);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", \"Olga\");\r",
+							"pm.environment.set(\"age\", 36);\r",
+							"pm.environment.set(\"salary\", 3000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_3?age={{age}}&name={{name}}&salary={{salary}}",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_3"
+					],
+					"query": [
+						{
+							"key": "age",
+							"value": "{{age}}"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task_3_Object_info_3_A",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 3. http://162.55.220.72:5005/object_info_3\r",
+							"// 13.  Преобразовать задания 5-7 (сравнить идентичные поля в реквесте и респонсе) таким образом, чтобы это делалось ЗА ОДИН ТЕСТ (сразу все 3 поля) БЕЗ ЦИКЛОВ! (глубокое сравнение объектов)\r",
+							"\r",
+							"const reqObject = pm.request.url.query.toObject()\r",
+							"const respObject = {\r",
+							"    age: String(pm.response.json().age),\r",
+							"    name: pm.response.json().name,\r",
+							"    salary: String(pm.response.json().salary)\r",
+							"}\r",
+							"pm.test('Compare request object and response object', () => {\r",
+							"    pm.expect(reqObject).to.deep.eql(respObject)\r",
+							"})\r",
+							"\r",
+							"\r",
+							"// 2ой вариант\r",
+							"const jsonData = pm.response.json()\r",
+							"const resp ={}\r",
+							"for(const key in reqObject) {\r",
+							"    resp[key] = isNaN(jsonData[key]) ? jsonData[key] : +jsonData[key]\r",
+							"    reqObject[key] = isNaN(reqObject[key]) ? reqObject[key] : +reqObject[key] // преобразовываем изначальный объект\r",
+							"}\r",
+							"\r",
+							"pm.test('2.0 Compare request object and response object', () => {\r",
+							"    pm.expect(reqObject).to.deep.eql(resp)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", \"Olga\");\r",
+							"pm.environment.set(\"age\", 36);\r",
+							"pm.environment.set(\"salary\", 3000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_3?age={{age}}&name={{name}}&salary={{salary}}",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_3"
+					],
+					"query": [
+						{
+							"key": "age",
+							"value": "{{age}}"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task_4_Object_info_4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Postman HW 2\r",
+							"// Task 4\r",
+							"\r",
+							"// http://162.55.220.72:5005/object_info_4\r",
+							"// 1. Отправить запрос.\r",
+							"// 2. Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 3. Спарсить response body в json.\r",
+							"const responseJson = pm.response.json(); \r",
+							"\r",
+							"\r",
+							"// 4. Спарсить request.\r",
+							"const req = pm.request.url.query.toObject();\r",
+							"\r",
+							"\r",
+							"// 5. Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test(\"Response property 'name' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.name).to.eql(req.name);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 6. Проверить, что age в ответе равно age из request (age забрать из request.)\r",
+							"pm.test(\"Response property 'age' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.age).to.eql(Number(req.age));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 7. Вывести в консоль параметр salary из request.\r",
+							"console.log('Salary in request:', req.salary);\r",
+							"\r",
+							"\r",
+							"// 8. Вывести в консоль параметр salary из response.\r",
+							"console.log('Salary in response:', responseJson.salary);\r",
+							"\r",
+							"\r",
+							"// 9. Вывести в консоль 0-й элемент параметра salary из response.\r",
+							"console.log('Salary[0] in response:', responseJson.salary[0]);\r",
+							"\r",
+							"\r",
+							"// 10. Вывести в консоль 1-й элемент параметра salary параметр salary из response.\r",
+							"console.log('Salary[1] in response:', responseJson.salary[1]);\r",
+							"\r",
+							"\r",
+							"// 11. Вывести в консоль 2-й элемент параметра salary параметр salary из response.\r",
+							"console.log('Salary[2] in response:', responseJson.salary[2]);\r",
+							"\r",
+							"\r",
+							"// 12. Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'salary[0]' matches request variable\", function () {\r",
+							"  pm.expect(responseJson.salary[0]).to.eql(Number(req.salary));\r",
+							"});\r",
+							"\r",
+							"// 13. Проверить, что 1-й элемент параметра salary равен salary*2 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'salary[1]' matches request variable multiplied by 2\", function () {\r",
+							"  pm.expect(Number(responseJson.salary[1])).to.eql(Number(req.salary)*2);\r",
+							"});\r",
+							"\r",
+							"// 14. Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'salary[2]' matches request variable multiplied by 3\", function () {\r",
+							"  pm.expect(Number(responseJson.salary[2])).to.eql(Number(req.salary)*3);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 15. Создать в окружении переменную name\r",
+							"// 16. Создать в окружении переменную age\r",
+							"// 17. Создать в окружении переменную salary\r",
+							"// 18. Передать в окружение переменную name\r",
+							"// 19. Передать в окружение переменную age\r",
+							"// 20. Передать в окружение переменную salary\r",
+							"// В Pre-request Script инициализирую переменные age, name, salary и присваиваю им значения\r",
+							"\r",
+							"\r",
+							"// 21. Написать цикл который выведет в консоль по порядку элементы списка из параметра salary.\r",
+							"responseJson.salary.forEach(el => console.log(el));\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", \"Olga\");\r",
+							"pm.environment.set(\"age\", 37);\r",
+							"pm.environment.set(\"salary\", 4000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_4?age={{age}}&name={{name}}&salary={{salary}}",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_4"
+					],
+					"query": [
+						{
+							"key": "age",
+							"value": "{{age}}"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task_5_User_info_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Postman HW 2\r",
+							"// Task 5\r",
+							"\r",
+							"// http://162.55.220.72:5005/user_info_2\r",
+							"// В Pre-request Script инициализирую переменные age, name, salary и присваиваю им значения\r",
+							"\r",
+							"\r",
+							"// 1. Вставить параметр salary из окружения в request\r",
+							"// 2. Вставить параметр age из окружения в age\r",
+							"// 3. Вставить параметр name из окружения в name\r",
+							"// 4. Отправить запрос.\r",
+							"// 5. Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 6. Спарсить response body в json.\r",
+							"const responseJson = pm.response.json();\r",
+							"\r",
+							"\r",
+							"// 7. Спарсить request.\r",
+							"const req = request.data;\r",
+							"\r",
+							"\r",
+							"// 8. Проверить, что json response имеет параметр start_qa_salary\r",
+							"pm.test(\"The response has a property 'start_qa_salary'\", function () {\r",
+							"  pm.expect(responseJson).to.have.property('start_qa_salary');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 9. Проверить, что json response имеет параметр qa_salary_after_6_months\r",
+							"pm.test(\"The response has a property 'qa_salary_after_6_months'\", function () {\r",
+							"  pm.expect(responseJson).to.have.property('qa_salary_after_6_months');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 10. Проверить, что json response имеет параметр qa_salary_after_12_months\r",
+							"pm.test(\"The response has a property 'qa_salary_after_12_months'\", function () {\r",
+							"  pm.expect(responseJson).to.have.property('qa_salary_after_12_months');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 11. Проверить, что json response имеет параметр qa_salary_after_1.5_year\r",
+							"pm.test(\"The response has a property 'qa_salary_after_1.5_year'\", function () {\r",
+							"  pm.expect(responseJson).to.have.property('qa_salary_after_1.5_year');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 12. Проверить, что json response имеет параметр qa_salary_after_3.5_years\r",
+							"pm.test(\"The response has a property 'qa_salary_after_3.5_years'\", function () {\r",
+							"  pm.expect(responseJson).to.have.property('qa_salary_after_3.5_years');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 13. Проверить, что json response имеет параметр person\r",
+							"pm.test(\"The response has a property 'person'\", function () {\r",
+							"  pm.expect(responseJson).to.have.property('person');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 14. Проверить, что параметр start_qa_salary равен salary из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'start_qa_salary' matches request variable 'salary'\", function () {\r",
+							"  pm.expect(responseJson.start_qa_salary).to.eql(Number(req.salary));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 15. Проверить, что параметр qa_salary_after_6_months равен salary*2 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'qa_salary_after_6_months' matches request variable 'salary' multiplied by 2\", function () {\r",
+							"  pm.expect(responseJson.qa_salary_after_6_months).to.eql(Number(req.salary)*2);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 16. Проверить, что параметр qa_salary_after_12_months равен salary*2.7 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'qa_salary_after_12_months' matches request variable 'salary' multiplied by 2.7\", function () {\r",
+							"  pm.expect(responseJson.qa_salary_after_12_months).to.eql(Number(req.salary)*2.7);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 17. Проверить, что параметр qa_salary_after_1.5_year равен salary*3.3 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'qa_salary_after_1.5_year' matches request variable 'salary' multiplied by 3.3\", function () {\r",
+							"  pm.expect(responseJson['qa_salary_after_1.5_year']).to.eql(Number(req.salary)*3.3);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 18. Проверить, что параметр qa_salary_after_3.5_years равен salary*3.8 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'qa_salary_after_3.5_years' matches request variable 'salary' multiplied by 3.8\", function () {\r",
+							"  pm.expect(responseJson['qa_salary_after_3.5_years']).to.eql(Number(req.salary)*3.8);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 19. Проверить, что в параметре person, 1-й элемент из u_name равен salary из request (salary забрать из request.)\r",
+							"pm.test(\"The response property 'u_name[1]' matches request variable 'salary'\", function () {\r",
+							"  pm.expect(responseJson.person.u_name[1]).to.eql(Number(req.salary));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 20. Проверить, что что параметр u_age равен age из request (age забрать из request.)\r",
+							"pm.test(\"The response property 'u_age' matches request variable 'age'\", function () {\r",
+							"  pm.expect(responseJson.person.u_age).to.eql(Number(req.age));\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 21. Проверить, что параметр u_salary_5_years равен salary*4.2 из request (salary забрать из request.)\r",
+							"pm.test(\"Response property 'u_salary_5_years' matches request variable 'salary' multiplied by 4.2\", function () {\r",
+							"  pm.expect(responseJson.person.u_salary_5_years).to.eql(Number(req.salary)*4.2);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// 22. *Написать цикл который выведет в консоль по порядку элементы списка из параметра person.\r",
+							"// 1ый вариант - выведет только значения из параметра person, без ключей\r",
+							"for (let i in responseJson.person) {\r",
+							"    console.log(responseJson.person[i]);\r",
+							"}\r",
+							"\r",
+							"// 2ой вариант -  выведет все пары ключ-значение, входящие в person:\r",
+							"// Вызов Object.entries(obj) возвращает массив пар ключ/значение для obj.\r",
+							"// На нём вызываем метод массива - map.\r",
+							"Object.entries(responseJson.person).map(([key, value]) => console.log (key, value));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", \"Olga\");\r",
+							"pm.environment.set(\"age\", 36);\r",
+							"pm.environment.set(\"salary\", 4000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Task_5_User_info_2_A",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// http://162.55.220.72:5005/user_info_2\r",
+							"// 23*. Преобразовать задания 8 - 13 (проверить что в json имеется нужный параметр) таким образом, чтобы все проверки делались в цикле (1 проверка в цикле, в которую попадают нужные параметры). Название теста должно видоизменяться исходя из подаваемых данных. ( ${}  или другим способом)\r",
+							"const keyisInJson = ['start_qa_salary', 'qa_salary_after_6_months'];\r",
+							"let resp = pm.response.json();\r",
+							"\r",
+							"keyisInJson.forEach(key => {\r",
+							"    pm.test(`Response has ${key}`, () => {\r",
+							"        pm.expect(resp).to.have.property(key);\r",
+							"    })\r",
+							"})\r",
+							"\r",
+							"\r",
+							"// 24*. Преобразовать задания 14 - 18 (проверить что параметр равен salary умножить на коэффициент) таким образом, чтобы все проверки делались в цикле (1 проверка в цикле, в которую попадают нужные параметры). Название теста должно видоизменяться исходя из подаваемых данных. ( ${}  или другим способом)\r",
+							"const salary = pm.environment.get('salary');\r",
+							"const counters = {\r",
+							"    \"start_qa_salary\": 1,\r",
+							"    \"qa_salary_after_6_months\": 2,\r",
+							"    \"qa_salary_after_3.5_years\" : 3.8,\r",
+							"    \"qa_salary_after_12_months\": 2.7,\r",
+							"     \"qa_salary_after_1.5_year\": 3.3\r",
+							"}\r",
+							"//for of для объекта не работает\r",
+							"for (const key in counters) {\r",
+							"    pm.test(`${key} from response = salary from request * ${counters[key]}`, () => {\r",
+							"        pm.expect(+resp[key]).to.eql(salary*counters[key]);\r",
+							"    })\r",
+							"}\r",
+							"\r",
+							"\r",
+							"// 25*. Преобразовать описанные выше задания 1 и 2 для данного эндпоинта в ОДИН ЦИКЛ, в котором будут проходить ОБА теста.\r",
+							"      counters['person'] = '';\r",
+							"      for(const key in counters) {\r",
+							"          pm.test(`Response has ${key}`);\r",
+							"      }\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"name\", \"Olga\");\r",
+							"pm.environment.set(\"age\", 36);\r",
+							"pm.environment.set(\"salary\", 4000);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "age",
+			"value": ""
+		},
+		{
+			"key": "salary",
+			"value": ""
+		}
+	]
+}

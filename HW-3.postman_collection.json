@@ -1,0 +1,1011 @@
+{
+	"info": {
+		"_postman_id": "d02ea48b-0893-4b67-9ead-da5a7d24da14",
+		"name": "HW-3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20886873"
+	},
+	"item": [
+		{
+			"name": "Pet",
+			"item": [
+				{
+					"name": "Add a new Pet to the store",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Не поняла, какие же данные нужно отправить, чтобы получить 405 ошибку\r",
+									"// При вводе id=лл выдает 400 ошибку"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{petId}},\r\n  \"category\": {\r\n    \"id\": {{$randomInt}},\r\n    \"name\": \"{{$randomAlphaNumeric}}\"\r\n  },\r\n  \"name\": \"{{$randomLastName}}\",\r\n  \"photoUrls\": [\r\n    \"{{$randomUrl}}\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": {{$randomInt}},\r\n      \"name\": \"{{$randomFirstName}}\"\r\n    }\r\n  ],\r\n  \"status\": \"{{status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/pet",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload Image by ID Pet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "petId",
+									"value": "{{petId}}",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"value": "https://drive.google.com/file/d/1JarQHc6HpwiTEBU9I5HmCovA1B2jB3kU/view?usp=share_link",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url_base}}/pet/{{petId}}/uploadImage",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}",
+								"uploadImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an existing Pet",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Правильно ли, что метод Update обновляет даже удаленный объект (не достигается ошибка 404)\r",
+									"// При вводе id=kk выдает ошибку 400"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{petId}},\r\n  \"category\": {\r\n    \"id\": {{$randomInt}},\r\n    \"name\": \"{{$randomAlphaNumeric}}\"\r\n  },\r\n  \"name\": \"{{$randomLastName}}\",\r\n  \"photoUrls\": [\r\n    \"{{$randomUrl}}\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": {{$randomInt}},\r\n      \"name\": \"{{$randomFirstName}}\"\r\n    }\r\n  ],\r\n  \"status\": \"{{status}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/pet",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Pet in the store with form data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "petId",
+									"value": "{{petId}}",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "{{$randomFirstName}}",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "{{status}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://petstore.swagger.io/v2/pet/{{petId}}",
+							"protocol": "https",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pet by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// На статус 123 результат 200\r",
+									"// Не достигается ошибка 400"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/pet/findByStatus?status={{status}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"pet",
+								"findByStatus"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "{{status}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Pet by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Не нужно указывать параметры?"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/pet/{{petId}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Написать тест, который проверяет статус код после удаления домашнего животного из базы\r",
+									"// Запрос на удаление дает статус-код 200. Повторный запрос на удаление уже несуществующего объекта приводит к статус-коду 404\r",
+									"pm.test(\"Check that status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "api_key",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/pet/{{petId}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"pet",
+								"{{petId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// Задание 1",
+							"// В рамках задания вам необходимо протестировать все методы, которые представлены для сервиса https://petstore.swagger.io/ в Postman и создать соответствующие коллекции.",
+							"// Документация формируется автоматически в инструменте Swagger, и очень часто именно такой формат используют на проекте. Ее создают backend-разработчики. Если на проекте документации нет, то вы можете предложить это сделать, потому что тестирование API лучше подключать еще до тестирования GUI, и на интеграционном уровне можно найти довольно критические баги.",
+							"// Если вы захотите отправлять запросы в самом Swagger, то вам необходимо настроить авторизацию. Необходимо нажать кнопку Authorize и ввести в поле client_id значение тест. Также необходимо проставить чек-боксы для просмотра и редактирования домашних питомцев.",
+							"// Обязательно используйте переменные для упрощения своей работы в Postman, например, для базового URL.",
+							"// Обратите внимание на статус-коды, которые должны приходить в тестовой документации, на обязательные атрибуты, на особенности формата тела запроса. Мельчайшая неточность и ваш запрос вернется с ошибкой.",
+							"// Помимо создания коллекции по всем методам вам также вам необходимо:",
+							"// Написать тест, который проверяет статус код после удаления домашнего животного из базы",
+							"// Создать несколько юзеров, используя метод createdWithArray",
+							"// В теле запроса для создания питомца сделать динамические значения, которые будут автоматически генерироваться при отправке",
+							"// Ссылку на коллекцию и выполненные задания пришлите в форме ниже. Не забудьте сделать коллекцию публичной и видимой для всего интернета",
+							"",
+							"",
+							"// задаю значение переменной petId, чтобы это значение использовать при создании нового объекта Pet и в последуюших методах",
+							"pm.environment.set(\"petId\", Math.floor(Math.random() * (100000 - 1)) + 1); ",
+							"",
+							"// задаю одно из трех возможных значений переменной status, чтобы это значение использовать при создании нового объекта Pet  и в последуюших методах",
+							"const statusPet = [\"available\", \"pending\", \"sold\"];",
+							"pm.environment.set(\"status\", statusPet[Math.floor(Math.random() * 3)]);",
+							"",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Store",
+			"item": [
+				{
+					"name": "Place an order for a Pet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": {{orderId}},\r\n  \"petId\": {{petId}},\r\n  \"quantity\": {{$randomInt}},\r\n  \"shipDate\": \"2022-10-25T19:58:41.123Z\",\r\n  \"status\": \"placed\",\r\n  \"complete\": {{$randomBoolean}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/store/order",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"store",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find purshace order by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Не нужно прописывать через вкладку params?"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/store/order/{{orderId}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Как достигнуть 400 ошибку?"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "api_key",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/store/order/{{orderId}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"store",
+								"order",
+								"{{orderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Returns Pet inventories by status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/store/inventory",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"store",
+								"inventory"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions",
+							"pm.environment.set(\"orderId\", Math.floor(Math.random() * (10 - 1)) + 1);",
+							"pm.environment.set(\"petId\", Math.floor(Math.random() * (100000 - 1)) + 1);"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{userId}},\r\n    \"username\": \"{{userName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\",\r\n    \"userStatus\": {{$randomInt}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create list of Users with given input array",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[  \r\n    {\r\n    \"id\": {{userId}},\r\n    \"username\": \"{{userName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\",\r\n    \"userStatus\": {{$randomInt}}\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user/createWithArray",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"createWithArray"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create list of Users with given input array",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[  \r\n    {\r\n    \"id\": {{userId}},\r\n    \"username\": \"{{userName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\",\r\n    \"userStatus\": {{$randomInt}}\r\n  }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user/createWithList",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"createWithList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by User Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url_base}}/user/{{userName}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User by User Name",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n    \"id\": {{userId}},\r\n    \"username\": \"{{userName}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\",\r\n    \"userStatus\": {{$randomInt}}\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user/{{userName}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User by User Name",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "api_key",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "api_key",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user/{{userName}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"{{userName}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log User into the system",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user/login?username={{userName}}&password={{password}}",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "{{userName}}"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log out current logged in User session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url_base}}/user/logout",
+							"host": [
+								"{{url_base}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"userId\", Math.floor(Math.random() * (100 - 1)) + 1);",
+							"",
+							" function generatorOfString(length) {",
+							"        chars = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM123456789';",
+							"        let newString = '';",
+							"        for (let i = 0; i < length; i++) {",
+							"            let pos = Math.floor(Math.random() * chars.length);",
+							"            newString += chars.substring(pos,pos+1);",
+							"        }",
+							"        return newString;",
+							"    }",
+							"pm.environment.set(\"userName\", generatorOfString(Math.floor(Math.random() * (15 - 3)) + 3));",
+							"pm.environment.set(\"password\", generatorOfString(Math.floor(Math.random() * (10 - 3)) + 3));"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Задание 1",
+					"// В рамках задания вам необходимо протестировать все методы, которые представлены для сервиса https://petstore.swagger.io/ в Postman и создать соответствующие коллекции.",
+					"// Документация формируется автоматически в инструменте Swagger, и очень часто именно такой формат используют на проекте. Ее создают backend-разработчики. Если на проекте документации нет, то вы можете предложить это сделать, потому что тестирование API лучше подключать еще до тестирования GUI, и на интеграционном уровне можно найти довольно критические баги.",
+					"// Если вы захотите отправлять запросы в самом Swagger, то вам необходимо настроить авторизацию. Необходимо нажать кнопку Authorize и ввести в поле client_id значение тест. Также необходимо проставить чек-боксы для просмотра и редактирования домашних питомцев.",
+					"// Обязательно используйте переменные для упрощения своей работы в Postman, например, для базового URL.",
+					"// Обратите внимание на статус-коды, которые должны приходить в тестовой документации, на обязательные атрибуты, на особенности формата тела запроса. Мельчайшая неточность и ваш запрос вернется с ошибкой.",
+					"// Помимо создания коллекции по всем методам вам также вам необходимо:",
+					"// Написать тест, который проверяет статус код после удаления домашнего животного из базы",
+					"// Создать несколько юзеров, используя метод createdWithArray",
+					"// В теле запроса для создания питомца сделать динамические значения, которые будут автоматически генерироваться при отправке",
+					"// Ссылку на коллекцию и выполненные задания пришлите в форме ниже. Не забудьте сделать коллекцию публичной и видимой для всего интернета"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

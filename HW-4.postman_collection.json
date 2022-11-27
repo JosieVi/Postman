@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "d52aeb4b-7a63-415a-ab81-461e1c8815d5",
+		"name": "HW-4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20886873"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml; charset=utf-8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\r\n  <soap:Body>\r\n    <FullCountryInfo xmlns=\"http://www.oorsprong.org/websamples.countryinfo\">\r\n      <sCountryISOCode>FI</sCountryISOCode>\r\n    </FullCountryInfo>\r\n  </soap:Body>\r\n</soap:Envelope>",
+					"options": {
+						"raw": {
+							"language": "xml"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso",
+					"protocol": "http",
+					"host": [
+						"webservices",
+						"oorsprong",
+						"org"
+					],
+					"path": [
+						"websamples.countryinfo",
+						"CountryInfoService.wso"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
